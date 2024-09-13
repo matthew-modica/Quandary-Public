@@ -27,16 +27,19 @@ parser code {:
 
 :};
 
-terminal PLUS, MINUS, MULTIPLY, LPAREN, RPAREN, SEMICOLON;
+terminal PLUS, MINUS, TIMES, LPAREN, RPAREN, SEMICOLON;
+terminal UMINUS;
 terminal Long    INTCONST;
 terminal RETURN;
 
 non terminal Program         program;
 non terminal Expr            expr;
 non terminal BinaryExpr      binaryExpr;
+non terminal UnaryExpr       unaryExpr;
 
 precedence left PLUS, MINUS;
-precedence left MULTIPLY;
+precedence left TIMES;
+precedence nonassoc UMINUS;
 
 start with program;
 
@@ -46,6 +49,9 @@ program ::= RETURN:r expr:e SEMICOLON:s
 
 expr ::= INTCONST:c
          {: RESULT = new ConstExpr(c, loc(cleft, cright)); :}
+      |  MINUS:m expr:e
+         {: RESULT = new UnaryExpr(UnaryExpr.MINUS, e, loc(mleft, eright)); :}
+         %prec UMINUS
       |  binaryExpr:e
          {: RESULT = e; :}
       |  LPAREN expr:e RPAREN
@@ -56,4 +62,6 @@ binaryExpr ::= expr:e1 PLUS expr:e2
                {: RESULT = new BinaryExpr(e1, BinaryExpr.PLUS, e2, loc(e1left, e1right)); :}
             |  expr:e1 MINUS expr:e2
                {: RESULT = new BinaryExpr(e1, BinaryExpr.MINUS, e2, loc(e1left, e1right)); :}
+            |  expr:e1 TIMES expr:e2
+               {: RESULT = new BinaryExpr(e1, BinaryExpr.TIMES, e2, loc(e1left, e1right)); :}
             ;

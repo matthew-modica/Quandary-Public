@@ -115,6 +115,12 @@ public class Interpreter {
                 case BinaryExpr.MINUS: return (Long)evaluate(binaryExpr.getLeftExpr()) - (Long)evaluate(binaryExpr.getRightExpr());
                 default: throw new RuntimeException("Unhandled operator");
             }
+        } else if (expr instanceof UnaryExpr) {
+            UnaryExpr unaryExpr = (UnaryExpr)expr;
+            switch (unaryExpr.getOperator()) {
+                case UnaryExpr.MINUS: return -(Long)evaluate(unaryExpr.getExpr());
+                default: throw new RuntimeException("Unhandled operator");
+            }
         } else {
             throw new RuntimeException("Unhandled Expr type");
         }
