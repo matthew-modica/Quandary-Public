@@ -65,8 +65,11 @@ white_space = {new_line} | [ \t\f]
 /* other tokens (you can add more tokens here) */
 "+"               { return symbol("+",  PLUS); }
 "-"               { return symbol("-",  MINUS); }
+"*"               { return symbol("*",  MULTIPLY); }
 "("               { return symbol("(",  LPAREN); }
 ")"               { return symbol(")",  RPAREN); }
+";"               { return symbol(";",  SEMICOLON); }
+"return" { return symbol("RETURN", RETURN); }
 
 /* You shouldn't need to modify anything below this */
 

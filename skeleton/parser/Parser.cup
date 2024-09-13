@@ -27,19 +27,21 @@ parser code {:
 
 :};
 
-terminal PLUS, MINUS, LPAREN, RPAREN;
+terminal PLUS, MINUS, MULTIPLY, LPAREN, RPAREN, SEMICOLON;
 terminal Long    INTCONST;
+terminal RETURN;
 
 non terminal Program         program;
 non terminal Expr            expr;
 non terminal BinaryExpr      binaryExpr;
 
 precedence left PLUS, MINUS;
+precedence left MULTIPLY;
 
 start with program;
 
-program ::= expr:e
-            {: RESULT = new Program(e, loc(eleft, eright)); :}
+program ::= RETURN:r expr:e SEMICOLON:s
+            {: RESULT = new Program(e, loc(rleft, sright)); :}
          ;
 
 expr ::= INTCONST:c
