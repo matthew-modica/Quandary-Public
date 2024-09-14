@@ -35,6 +35,7 @@ public class BinaryExpr extends Expr {
         switch (operator) {
             case PLUS:  s = "+"; break;
             case MINUS: s = "-"; break;
+            case TIMES: s = "*"; break;
         }
         return "(" + expr1 + " " + s + " " + expr2 + ")";
     }
